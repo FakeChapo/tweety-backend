@@ -45,7 +45,6 @@ describe("Auth Flow", () => {
     test("Register new user", async () => {
         const res = await request(app).post("/v1/auth/register").send(user);
         if (res.statusCode !== 201) {
-            // eslint-disable-next-line no-console
             console.error("Register new user failed:", res.body);
         }
         expect(res.statusCode).toBe(201);
@@ -57,7 +56,6 @@ describe("Auth Flow", () => {
     test("Fail to register with same username/email", async () => {
         const res = await request(app).post("/v1/auth/register").send(user);
         if (res.statusCode !== 409) {
-            // eslint-disable-next-line no-console
             console.error("Duplicate register failed:", res.body);
         }
         expect(res.statusCode).toBe(409);
@@ -70,7 +68,6 @@ describe("Auth Flow", () => {
             password: user.password
         });
         if (res.statusCode !== 200) {
-            // eslint-disable-next-line no-console
             console.error("Login failed:", res.body);
         }
         expect(res.statusCode).toBe(200);
@@ -84,7 +81,6 @@ describe("Auth Flow", () => {
             password: "wrongpassword"
         });
         if (res.statusCode !== 401) {
-            // eslint-disable-next-line no-console
             console.error("Login with wrong password did not fail as expected:", res.body);
         }
         expect(res.statusCode).toBe(401);
@@ -95,7 +91,6 @@ describe("Auth Flow", () => {
             .get("/v1/auth/me")
             .set("Authorization", `Bearer ${token}`);
         if (res.statusCode !== 200) {
-            // eslint-disable-next-line no-console
             console.error("Get profile with token failed:", res.body);
         }
         expect(res.statusCode).toBe(200);
@@ -105,7 +100,6 @@ describe("Auth Flow", () => {
     test("Fail to get profile without token", async () => {
         const res = await request(app).get("/v1/auth/me");
         if (res.statusCode !== 401) {
-            // eslint-disable-next-line no-console
             console.error("Unauthenticated /me did not fail as expected:", res.body);
         }
         expect(res.statusCode).toBe(401);
@@ -116,7 +110,6 @@ describe("Auth Flow", () => {
             .post("/v1/auth/logout")
             .set("Authorization", `Bearer ${token}`);
         if (res.statusCode !== 200) {
-            // eslint-disable-next-line no-console
             console.error("Logout failed:", res.body);
         }
         expect(res.statusCode).toBe(200);
@@ -127,7 +120,6 @@ describe("Auth Flow", () => {
             .get("/v1/auth/me")
             .set("Authorization", `Bearer ${token}`);
         if (res.statusCode !== 401) {
-            // eslint-disable-next-line no-console
             console.error("/me after logout did not fail as expected:", res.body);
         }
         expect(res.statusCode).toBe(401);
@@ -160,7 +152,6 @@ describe("Events", () => {
             type: "info"
         });
         if (res.statusCode !== 401) {
-            // eslint-disable-next-line no-console
             console.error("Unauthenticated create event did not fail as expected:", res.body);
         }
         expect(res.statusCode).toBe(401);
@@ -177,7 +168,6 @@ describe("Events", () => {
                 description: "Testing event creation"
             });
         if (res.statusCode !== 201) {
-            // eslint-disable-next-line no-console
             console.error("Authenticated create event failed:", res.body);
         }
         expect(res.statusCode).toBe(201);
@@ -188,7 +178,6 @@ describe("Events", () => {
     test("List events (public)", async () => {
         const res = await request(app).get("/v1/events");
         if (res.statusCode !== 200) {
-            // eslint-disable-next-line no-console
             console.error("List events failed:", res.body);
         }
         expect(res.statusCode).toBe(200);
@@ -198,7 +187,6 @@ describe("Events", () => {
     test("Get event by id (public)", async () => {
         const res = await request(app).get(`/v1/events/${eventId}`);
         if (res.statusCode !== 200) {
-            // eslint-disable-next-line no-console
             console.error(`Get event by id ${eventId} failed:`, res.body);
         }
         expect(res.statusCode).toBe(200);
@@ -208,7 +196,6 @@ describe("Events", () => {
     test("Get event by id (not found)", async () => {
         const res = await request(app).get(`/v1/events/doesnotexist`);
         if (res.statusCode !== 404) {
-            // eslint-disable-next-line no-console
             console.error("Get non-existent event did not 404 as expected:", res.body);
         }
         expect(res.statusCode).toBe(404);
@@ -217,7 +204,6 @@ describe("Events", () => {
     test("List events by type (public)", async () => {
         const res = await request(app).get(`/v1/events?type=info`);
         if (res.statusCode !== 200) {
-            // eslint-disable-next-line no-console
             console.error("List events by type failed:", res.body);
         }
         expect(res.statusCode).toBe(200);
@@ -228,7 +214,6 @@ describe("Events", () => {
         const now = new Date().toISOString();
         const res = await request(app).get(`/v1/events?timestamp=${encodeURIComponent(now)}`);
         if (res.statusCode !== 200) {
-            // eslint-disable-next-line no-console
             console.error("List events by timestamp failed:", res.body);
         }
         expect(res.statusCode).toBe(200);

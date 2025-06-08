@@ -14,7 +14,6 @@ const POZNAN_API_URL = config.POZNAN_API_URL;
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
 if (!POZNAN_API_URL) {
-    // eslint-disable-next-line no-console
     console.warn("POZNAN_API_URL is not set. Poznan API endpoint will not function correctly.");
 }
 

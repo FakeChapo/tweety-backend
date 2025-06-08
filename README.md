@@ -1,4 +1,3 @@
-```markdown
 # Event RESTful API Server
 
 A modern Node.js (ESM) RESTful API for event management, featuring user registration & JWT authentication, public event access, and poznan API proxying with caching.
@@ -50,7 +49,7 @@ npm install
     PORT=3000
     DB_FILE=./db/database.sqlite
     JWT_SECRET=your_super_secret_jwt_key
-    POZNAN_API_URL=https://third.party/api/data
+    POZNAN_API_URL=https://www.poznan.pl/mim/plan/map_service.html?mtype=pub_transport&co=cluster
     ```
 
 ---

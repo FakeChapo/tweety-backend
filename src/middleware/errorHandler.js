@@ -17,7 +17,6 @@ export default function errorHandler(err, req, res, next) {
 
     // Log error in development
     if (process.env.NODE_ENV !== "production") {
-        // eslint-disable-next-line no-console
         console.error(err);
     }
 

@@ -21,12 +21,10 @@ export const POZNAN_API_URL = process.env.POZNAN_API_URL || "";
 export const NODE_ENV = process.env.NODE_ENV || "development";
 
 if (!JWT_SECRET) {
-    // eslint-disable-next-line no-console
     console.warn("Warning: JWT_SECRET is not set in environment. Authentication will fail.");
 }
 
 if (!POZNAN_API_URL) {
-    // eslint-disable-next-line no-console
     console.warn("Warning: POZNAN_API_URL is not set. POZNAN API endpoint will not function correctly.");
 }
 

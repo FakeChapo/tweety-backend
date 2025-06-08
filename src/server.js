@@ -48,7 +48,6 @@ export async function startServer() {
     await db.init();
     if (!isStartedByTest) {
         app.listen(config.PORT, () => {
-            // eslint-disable-next-line no-console
             console.log(`Server listening on port ${config.PORT}`);
         });
     }
