@@ -9,8 +9,7 @@ import db from "../db.js";
 /**
  * Creates a new event in the database.
  * @param {object} eventData - The event data.
- * @param {string} eventData.otherName
- * @param {string} eventData.otherId
+ * @param {string} eventData.stopId
  * @param {string} eventData.type
  * @param {string} eventData.description
  * @param {string|null} createdBy - User ID of the creator (nullable).
@@ -22,11 +21,10 @@ export async function createEvent(eventData, createdBy = null) {
     const dbInstance = db.getDb();
 
     await dbInstance.run(
-        `INSERT INTO events (id, otherName, otherId, type, description, timestamp, created_by)
-         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO events (id, stopId, type, description, timestamp, created_by)
+         VALUES (?, ?, ?, ?, ?, ?)`,
         eventId,
-        eventData.otherName,
-        eventData.otherId,
+        eventData.stopId,
         eventData.type,
         eventData.description,
         timestamp,

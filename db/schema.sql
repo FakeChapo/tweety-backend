@@ -16,15 +16,13 @@ CREATE TABLE IF NOT EXISTS user_tokens (
     token TEXT NOT NULL,           -- the JWT or a unique identifier
     expires_at TEXT NOT NULL,      -- ISO timestamp
     issued_at TEXT NOT NULL,       -- ISO timestamp
-    device_info TEXT,              -- optional: user agent or device description
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- EVENTS TABLE (public, anyone can read)
 CREATE TABLE IF NOT EXISTS events (
     id TEXT PRIMARY KEY,
-    otherName TEXT NOT NULL,
-    otherId TEXT NOT NULL,
+    stopId TEXT NOT NULL,
     type TEXT NOT NULL,
     description TEXT,
     timestamp TEXT NOT NULL,       -- ISO 8601 string, set by JS

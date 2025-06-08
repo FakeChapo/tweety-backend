@@ -82,7 +82,7 @@ Server will auto-create the SQLite database and tables if they do not exist.
 |------------------------|--------|-------------|-------------------------------------|--------------------------------------|
 | `/v1/events`           | GET    | Public      | `?type=TYPE&timestamp=ISO8601`      | List events, filter by type/timestamp|
 | `/v1/events/:id`       | GET    | Public      |                                     | Get event by ID                      |
-| `/v1/events`           | POST   | JWT         | `{ otherName, otherId, type, description }` | Create new event (auth required)     |
+| `/v1/events`           | POST   | JWT         | `{ stopId, type, description }` | Create new event (auth required)     |
 
 ### Poznan API Proxy
 

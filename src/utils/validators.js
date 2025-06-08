@@ -26,8 +26,7 @@ export const loginSchema = Joi.object({
  * Event creation validation schema.
  */
 export const eventCreateSchema = Joi.object({
-    otherName: Joi.string().min(1).max(128).required(),
-    otherId: Joi.string().min(1).max(128).required(),
+    stopId: Joi.string().min(1).max(128).required(),
     type: Joi.string().min(1).max(64).required(),
     description: Joi.string().allow("").max(1024)
 });

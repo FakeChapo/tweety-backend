@@ -42,14 +42,13 @@ export async function generateAndStoreToken(userId, deviceInfo = "") {
     // Store token in user_tokens table
     const dbInstance = db.getDb();
     await dbInstance.run(
-        `INSERT INTO user_tokens (id, user_id, token, expires_at, issued_at, device_info)
-         VALUES (?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO user_tokens (id, user_id, token, expires_at, issued_at)
+         VALUES (?, ?, ?, ?, ?)`,
         tokenId,
         userId,
         token,
         new Date(expiresAt * 1000).toISOString(),
-        new Date(issuedAt * 1000).toISOString(),
-        deviceInfo
+        new Date(issuedAt * 1000).toISOString()
     );
 
     return token;

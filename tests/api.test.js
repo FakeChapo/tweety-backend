@@ -147,8 +147,8 @@ describe("Events", () => {
 
     test("Fail to create event when unauthenticated", async () => {
         const res = await request(app).post("/v1/events").send({
-            otherName: "A",
-            otherId: "B",
+
+            stopId: "B",
             type: "info"
         });
         if (res.statusCode !== 401) {
@@ -162,8 +162,7 @@ describe("Events", () => {
             .post("/v1/events")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                otherName: "Sample Event",
-                otherId: "10001",
+                stopId: "10001",
                 type: "info",
                 description: "Testing event creation"
             });
