@@ -33,7 +33,7 @@ A modern Node.js (ESM) RESTful API for event management, featuring user registra
 ### Installation
 
 ```sh
-git clone https://github.com/yourusername/tweety-backend.git
+git clone https://github.com/FakeChapo/tweety-backend.git
 cd tweety-backend
 npm install
 ```
@@ -103,33 +103,3 @@ Server will auto-create the SQLite database and tables if they do not exist.
 - Tokens expire after 7 days or on logout.
 
 ---
-
-## Project Structure
-
-```
-db/
-  ├─ database.sqlite      # SQLite DB (auto-created)
-  └─ schema.sql           # Schema (DDL)
-
-src/
-  ├─ config.js            # Loads env/config vars
-  ├─ db.js                # DB connection and init
-  ├─ server.js            # Express app entrypoint
-  ├─ middleware/
-  │     ├─ auth.js        # JWT auth helpers & middleware
-  │     ├─ cache.js       # Simple cache middleware
-  │     └─ errorHandler.js# Central error handler
-  ├─ models/
-  │     ├─ userModel.js   # User DB operations
-  │     └─ eventModel.js  # Event DB operations
-  ├─ routes/
-  │     ├─ v1.js          # Main v1 router
-  │     └─ v1/
-  │          ├─ auth.js   # Auth endpoints
-  │          ├─ events.js # Event endpoints
-  │          └─ poznan.js # Poznan API proxy endpoint
-  └─ utils/
-        └─ validators.js  # Joi schemas for validation
-
-.env.example              # Example config
-```
