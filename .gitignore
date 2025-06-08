@@ -1,0 +1,43 @@
+# Node modules
+node_modules/
+
+# Environment variable files
+.env
+.env.*.local
+
+# SQLite database files
+db/*.sqlite
+db/*.db
+db/*.sqlite3
+
+# SQLite database backups and WAL files
+db/*.sqlite-shm
+db/*.sqlite-wal
+db/*.sqlite-journal
+
+# Test database
+db/test.sqlite
+
+# Local log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Coverage reports (Jest)
+coverage/
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Build output (if any)
+dist/
+build/
