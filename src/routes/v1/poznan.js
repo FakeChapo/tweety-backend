@@ -33,12 +33,16 @@ router.get("/", async (req, res, next) => {
         const mapped = data.map(item => ({
             id: item.id,
             type: item.type,
-            latitude: item.geometry?.coordinates?.[0] ?? null,
-            longitude: item.geometry?.coordinates?.[1] ?? null,
-            properties: item.properties || {}
+            longitude: item.geometry?.coordinates?.[0] ?? null,
+            latitude: item.geometry?.coordinates?.[1] ?? null,
+            // properties: item.properties || {},
+            zone: item.properties.zone,
+            route_type: item.properties.route_type,
+            headsigns: item.properties.headsigns,
+            stop_name: item.properties.stop_name,
         }));
 
-        res.json({data: mapped});
+        res.json(mapped);
     } catch (err) {
         next(err);
     }

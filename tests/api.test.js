@@ -30,7 +30,7 @@ beforeAll(async () => {
 afterAll(async () => {
     const database = db.getDb();
     database.close();
-    try { await fs.promises.unlink(TEST_DB); } catch {}
+    // try { await fs.promises.unlink(TEST_DB); } catch {}
 });
 
 describe("Auth Flow", () => {
@@ -220,6 +220,103 @@ describe("Events", () => {
     });
 });
 
+describe("Event Likes/Dislikes", () => {
+    let token;
+    let eventId;
+    const user = {
+        username: "likeruser",
+        email: `likeruser${uuidv4()}@mail.com`,
+        password: "LikePassw0rd!"
+    };
+
+    beforeAll(async () => {
+        // Register & login a new user
+        await request(app).post("/v1/auth/register").send(user);
+        const loginRes = await request(app).post("/v1/auth/login").send({
+            usernameOrEmail: user.username,
+            password: user.password
+        });
+        token = loginRes.body.token;
+
+        // Create an event
+        const eventRes = await request(app)
+            .post("/v1/events")
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                stopId: "20001",
+                type: "info",
+                description: "Event to like/dislike"
+            });
+        eventId = eventRes.body.id;
+    });
+
+    test("Initial event stats are zero", async () => {
+        const res = await request(app).get(`/v1/events/${eventId}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.likes || 0).toBe(0);
+        expect(res.body.dislikes || 0).toBe(0);
+    });
+
+    test("Like an event", async () => {
+        const res = await request(app)
+            .post(`/v1/events/${eventId}/like`)
+            .set("Authorization", `Bearer ${token}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.likes).toBe(1);
+        expect(res.body.dislikes).toBe(0);
+    });
+
+    test("Like again does not increment", async () => {
+        const res = await request(app)
+            .post(`/v1/events/${eventId}/like`)
+            .set("Authorization", `Bearer ${token}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.likes).toBe(1);
+        expect(res.body.dislikes).toBe(0);
+    });
+
+    test("Dislike switches the reaction", async () => {
+        const res = await request(app)
+            .post(`/v1/events/${eventId}/dislike`)
+            .set("Authorization", `Bearer ${token}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.likes).toBe(0);
+        expect(res.body.dislikes).toBe(1);
+    });
+
+    test("Dislike again does not increment", async () => {
+        const res = await request(app)
+            .post(`/v1/events/${eventId}/dislike`)
+            .set("Authorization", `Bearer ${token}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.likes).toBe(0);
+        expect(res.body.dislikes).toBe(1);
+    });
+
+    test("Like switches back", async () => {
+        const res = await request(app)
+            .post(`/v1/events/${eventId}/like`)
+            .set("Authorization", `Bearer ${token}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.likes).toBe(1);
+        expect(res.body.dislikes).toBe(0);
+    });
+
+    test("Stats reflected in GET /events", async () => {
+        const res = await request(app).get("/v1/events");
+        expect(res.statusCode).toBe(200);
+        const found = res.body.events.find(e => e.id === eventId);
+        expect(found.likes).toBe(1);
+        expect(found.dislikes).toBe(0);
+    });
+
+    test("Stats reflected in GET /events/:id", async () => {
+        const res = await request(app).get(`/v1/events/${eventId}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.likes).toBe(1);
+        expect(res.body.dislikes).toBe(0);
+    });
+});
 
 describe("Poznan API Proxy", () => {
     test("GET /v1/poznan returns mapped data", async () => {
@@ -234,3 +331,4 @@ describe("Poznan API Proxy", () => {
         expect(secondRes.body.data).toEqual(firstRes.body.data);
     });
 });
+

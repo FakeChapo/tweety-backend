@@ -36,7 +36,7 @@ export const eventCreateSchema = Joi.object({
  */
 export const eventQuerySchema = Joi.object({
     type: Joi.string().min(1).max(64).optional(),
-    timestamp: Joi.date().iso().optional()
+    timestamp: Joi.string().optional()
 });
 
 /**

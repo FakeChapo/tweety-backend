@@ -7,7 +7,7 @@
  * Creates a cache middleware for GET requests.
  * @param {number} ttlMs - Time to live in milliseconds.
  * @returns {import("express").RequestHandler}
- */
+*/
 export function createCache(ttlMs) {
     const cache = new Map();
 

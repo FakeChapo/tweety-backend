@@ -1,6 +1,6 @@
 /**
  * @file routes/v1/events.js
- * @description Events endpoints (public read, authenticated create).
+ * @description Events endpoints (public read, authenticated create, like/dislike).
  */
 
 import express from "express";
@@ -11,7 +11,9 @@ import {
 import {
     createEvent,
     getEventById,
-    getEvents
+    getEvents,
+    likeOrDislikeEvent,
+    getEventReactions
 } from "../../models/eventModel.js";
 import { authenticateJWT } from "../../middleware/auth.js";
 
@@ -37,7 +39,7 @@ router.get("/", async (req, res, next) => {
             timestamp: value.timestamp
         });
 
-        res.json({ events });
+        res.json({events});
     } catch (err) {
         next(err);
     }
@@ -53,6 +55,7 @@ router.get("/:id", async (req, res, next) => {
         if (!event) {
             return res.status(404).json({ error: "Event not found" });
         }
+
         res.json(event);
     } catch (err) {
         next(err);
@@ -74,6 +77,62 @@ router.post("/", authenticateJWT, async (req, res, next) => {
         const event = await createEvent(value, createdBy);
 
         res.status(201).json(event);
+    } catch (err) {
+        next(err);
+    }
+});
+
+/**
+ * POST /v1/events/:id/like
+ * Authenticated: Like an event.
+ */
+router.post("/:id/like", authenticateJWT, async (req, res, next) => {
+    try {
+        const eventId = req.params.id;
+        const userId = req.user.id;
+
+        /** @type {import("../../models/eventModel.js").LikeDislikeResult} */
+        const result = await likeOrDislikeEvent(eventId, userId, 1);
+
+        if (!result.eventExists) {
+            return res.status(404).json({ error: "Event not found" });
+        }
+
+        const reactions = await getEventReactions(eventId);
+
+        res.json({
+            message: result.updated ? "Reaction updated" : "Reaction registered",
+            likes: reactions.likes,
+            dislikes: reactions.dislikes
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
+/**
+ * POST /v1/events/:id/dislike
+ * Authenticated: Dislike an event.
+ */
+router.post("/:id/dislike", authenticateJWT, async (req, res, next) => {
+    try {
+        const eventId = req.params.id;
+        const userId = req.user.id;
+
+        /** @type {import("../../models/eventModel.js").LikeDislikeResult} */
+        const result = await likeOrDislikeEvent(eventId, userId, -1);
+
+        if (!result.eventExists) {
+            return res.status(404).json({ error: "Event not found" });
+        }
+
+        const reactions = await getEventReactions(eventId);
+
+        res.json({
+            message: result.updated ? "Reaction updated" : "Reaction registered",
+            likes: reactions.likes,
+            dislikes: reactions.dislikes
+        });
     } catch (err) {
         next(err);
     }
