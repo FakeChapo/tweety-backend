@@ -81,8 +81,10 @@ Server will auto-create the SQLite database and tables if they do not exist.
 | Endpoint               | Method | Auth        | Query / Body                       | Description                          |
 |------------------------|--------|-------------|-------------------------------------|--------------------------------------|
 | `/v1/events`           | GET    | Public      | `?type=TYPE&timestamp=ISO8601`      | List events, filter by type/timestamp|
-| `/v1/events/:id`       | GET    | Public      |                                     | Get event by ID                      |
 | `/v1/events`           | POST   | JWT         | `{ stopId, type, description }` | Create new event (auth required)     |
+| `/v1/events/:id`       | GET    | Public      |                                     | Get event by ID                      |
+| `/v1/events/:id/like`       | POST    | JWT      |                                     | Give a like to a specific event                     |
+| `/v1/events/:id/dislike`       | POST    | JWT      |                                     |  Give a dislike to a specific event                     |
 
 ### Poznan API Proxy
 
