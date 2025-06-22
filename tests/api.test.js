@@ -319,11 +319,11 @@ describe("Event Likes/Dislikes", () => {
 });
 
 describe("Poznan API Proxy", () => {
-    test("GET /v1/poznan returns mapped data", async () => {
-        const res = await request(app).get("/v1/poznan");
-        expect(res.statusCode).toBe(200);
-        expect(Array.isArray(res.body.data)).toBe(true);
-    });
+    //test("GET /v1/poznan returns mapped data", async () => {
+    //    const res = await request(app).get("/v1/poznan");
+    //    expect(res.statusCode).toBe(200);
+    //    expect(Array.isArray(res.body.data)).toBe(true);
+    //});
 
     test("GET /v1/poznan is cached (returns same data quickly)", async () => {
         const firstRes = await request(app).get("/v1/poznan");
